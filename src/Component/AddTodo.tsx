@@ -1,7 +1,7 @@
 import { nanoid } from "@reduxjs/toolkit";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { TodoPayload, addTodo, removeTodo } from "../Features/Todo/todoSlice";
+import {  addTodo } from "../Features/Todo/todoSlice";
 import {
   Box,
   Button,
@@ -11,7 +11,8 @@ import {
   styled,
   TextareaAutosize,
 } from "@material-ui/core";
-const WebStyle = {
+import { useNavigate } from "react-router-dom";
+export const WebStyle = {
   buttonStyle: {
     textTransform:"inherit" as "inherit",
     fontSize: "16px",
@@ -54,6 +55,7 @@ const WebStyle = {
 
 
 const AddTodo = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [data, setData] = useState({
     id: nanoid(),
@@ -85,13 +87,16 @@ if(data?.description.trim().length==0){
      }
      else{
        dispatch(addTodo(data));
+ 
+       
        setTitleError(false)
        setDescriptionError(false)
-                   setData({
-                     id: nanoid(),
-                     title: "",
-                     description: "",
-                   });
+       setData({
+         id: nanoid(),
+         title: "",
+         description: "",
+        });
+        navigate(`/`);
      }
   }
  const  handleBorderDescription=()=>{
@@ -103,7 +108,6 @@ return descriptionError?"1px solid #DC2626":"1px solid #03B5AA"
       container
       style={{
         display: "flex",
-        height: "100vh",
         alignItems: "center",
         justifyContent: "center",
         flexDirection: "column",
@@ -127,6 +131,9 @@ return descriptionError?"1px solid #DC2626":"1px solid #03B5AA"
             if(e.target.value.trim().length==0){
               setTitleError(true)
             }
+            else{
+              setTitleError(false)
+            }
           }}
         />
         <Typography style={WebStyle.subheading}>Description</Typography>
@@ -149,8 +156,12 @@ return descriptionError?"1px solid #DC2626":"1px solid #03B5AA"
               ...prevState,
               description: e.target.value.slice(0,500),
             }));
+            
             if(e.target.value.trim().length==0){
               setDescriptionError(true)
+            }
+            else{
+              setDescriptionError(false)
             }
           }}
         />
@@ -167,28 +178,12 @@ Enter a value
           variant="contained"
           onClick={() => {
             handleError()
+
           }}
         >
           Add todo
         </Button>
       </Box>
-      <Typography>List of data</Typography>
-
-      {Dataaa.map((item: TodoPayload) => {
-        return (
-          <>
-            <Typography key={item?.id}>{item.title}</Typography>
-            <Typography>{item?.description}</Typography>
-            <Button
-              onClick={() => {
-                dispatch(removeTodo(item.id));
-              }}
-            >
-              delete
-            </Button>
-          </>
-        );
-      })}
     </Grid>
   );
 };

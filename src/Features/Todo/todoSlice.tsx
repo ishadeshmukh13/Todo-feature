@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-
 export interface TodoPayload {
     id: string;
     title: string;
@@ -26,8 +25,6 @@ export const todoSlice=createSlice({
     reducers: {
         addTodo:(state:TodoState,action:AddTodoAction)=>{
             state.todoData.unshift(action.payload);
-            console.log(state.todoData,action.payload,"hello data added ")
-
         },
         removeTodo:(state:TodoState,action:RemoveTodo)=>{
           state.todoData=  state.todoData.filter((item:TodoPayload)=>{
