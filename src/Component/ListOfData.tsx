@@ -19,6 +19,7 @@ const ListOfData = () => {
       flexDirection: "column",
     }}
   >
+    
     <Typography style={WebStyle.heading}>
       List of data
     </Typography>
