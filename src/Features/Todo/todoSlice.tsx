@@ -19,6 +19,7 @@ interface TodoState {
 const initialState={
     todoData:[]
 }
+
 export const todoSlice=createSlice({
     name: 'Todo',
     initialState,
